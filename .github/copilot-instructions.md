@@ -1,7 +1,7 @@
 # Copilot Instructions
 
 ## Project Overview
-A template repository for creating TypeScript packages published to npm. Provides an example source structure, build tooling, documentation generation, and GitHub automation for builds, publishing, dependency updates, and security scanning.
+A growing toolkit of reusable, library-agnostic TypeScript and JavaScript utilities for algorithmic generative art development, published to npm. Provides a typed ESM package, build tooling, documentation generation, and GitHub automation for builds, publishing, dependency updates, and security scanning.
 
 ## Companion Instruction Files
 This repository maintains a companion `CLAUDE.md` at the repository root alongside this file.
@@ -15,21 +15,20 @@ The two documents serve overlapping audiences and should stay consistent: when y
 - **Build:** tsdown (ESM output to `_dist/`)
 - **Test:** Vitest (coverage via V8, output to `_coverage/`)
 - **Documentation:** TypeDoc (output to `_doc/`)
+- **Dependencies:** `@blwat/utils` (runtime/production dependency)
 
 ## Development and Validation
 
 ### Development Status
-Initial template scaffolding is complete. The project includes an example `HelloWorld` class export (`src/hello-world/`), TypeScript and build tooling configuration, a Vitest test suite, TypeDoc documentation generation, and GitHub automation workflows for builds, publishing, and security.
+Initial scaffolding is complete. The project includes a placeholder `HelloWorld` class export (`src/hello-world/`), TypeScript and build tooling configuration, a Vitest test suite, TypeDoc documentation generation, and GitHub automation workflows for builds, publishing, and security. The `HelloWorld` module is a temporary placeholder and will be replaced with real utility implementations in a future changeset before the first alpha release.
 
 ### Validation Steps
 1. Run `npm ci` to install dependencies.
 2. Run `npm run build` to validate the build.
 3. Run `npm test` to run the test suite.
 
-### Template Link Verification During Review
-As part of pull request review, verify that repository and package links (for example in `README.md`, `package.json`, or other project metadata) match the current repository/project being worked on.
-
-When this template is used to create a new repository, reviewers should explicitly confirm that inherited links have been updated to the new repository and package coordinates.
+### Link Verification During Review
+As part of pull request review, verify that repository and package links (for example in `README.md`, `package.json`, or other project metadata) match the current repository and package coordinates.
 
 ## npm Scripts
 - `lint:js`: Runs ESLint with the JavaScript-only configuration (`eslint.config.js.mjs`).
@@ -111,6 +110,7 @@ Place annotations in the following order for consistency and readability:
 1. `@throws`
 1. `@default`
 1. `@example`
+1. `@type`
 1. `@readonly`
 1. `@private`
 1. `@protected`
@@ -121,7 +121,7 @@ Place annotations in the following order for consistency and readability:
 1. `@since`
 1. `@category`
 
-Include other relevant tags (such as `@template`, `@type`) after the above, as appropriate for the context.
+Include other relevant tags after the above, as appropriate for the context.
 
 ### File Headers
 All source files must include the MIT License copyright header at the top.
