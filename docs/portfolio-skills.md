@@ -10,7 +10,7 @@ toc: true
 This page is a technical record of the skills, tools, and engineering practices represented in the TypeScript Generative Art Utilities project.
 
 ## Project Overview
-TypeScript Generative Art Utilities (`@blwat/genart-utils`) is a growing toolkit of reusable, library-agnostic TypeScript and JavaScript utilities for algorithmic generative art development, published to npm for both TypeScript and JavaScript consumers. The project is hosted at [github.com/blwatkins/typescript-genart-utils](https://github.com/blwatkins/typescript-genart-utils) and built with TypeScript, tsdown (ESM bundling), and Vitest for testing. GitHub Actions automates linting, building, testing, and publishing.
+TypeScript Generative Art Utilities (`@blwat/genart-utils`) is a growing toolkit of reusable, library-agnostic TypeScript and JavaScript utilities for algorithmic generative art development, published to npm for both TypeScript and JavaScript consumers. The project is maintained at [github.com/blwatkins/typescript-genart-utils](https://github.com/blwatkins/typescript-genart-utils) and built with TypeScript, tsdown (ESM bundling), and Vitest for testing. GitHub Actions automates linting, building, testing, and publishing.
 
 ## At a Glance
 - **Project Type:** Generative Art Utility npm Package
@@ -20,7 +20,7 @@ TypeScript Generative Art Utilities (`@blwat/genart-utils`) is a growing toolkit
 - **Quality Controls:** ESLint
 - **Automation:** GitHub Actions
 - **Dependency Automation:** Dependabot
-- **Security Analysis:** CodeQL
+- **Security Analysis:** CodeQL via GitHub Actions
 - **Documentation Pattern:** TypeDoc and Jekyll (GitHub Pages)
 
 ## Skills and Tooling Inventory
@@ -38,7 +38,7 @@ TypeScript Generative Art Utilities (`@blwat/genart-utils`) is a growing toolkit
 - **Automation:** [GitHub Actions](https://github.com/features/actions)
 - **Hosting & Deployment:** [GitHub Pages](https://docs.github.com/en/pages), [npm Package Registry](https://www.npmjs.com/)
 - **Code Analysis / Security:** [CodeQL](https://codeql.github.com/)
-- **Dependency Automation:** [Dependabot](https://docs.github.com/en/code-security/concepts/supply-chain-security/about-dependabot-version-updates)
+- **Dependency Automation:** [Dependabot](https://docs.github.com/en/code-security/concepts/supply-chain-security/dependabot-version-updates)
 - **Development Utilities:** [npm CLI](https://docs.npmjs.com/cli)
 - **Environment Configuration:** Node.js version pinning via `.node-version`, plus Ruby version pinning for the Jekyll/Bundler docs site via `docs/.ruby-version`
 - **Development Environments:** [WebStorm](https://www.jetbrains.com/webstorm/), [Visual Studio Code](https://code.visualstudio.com/)
