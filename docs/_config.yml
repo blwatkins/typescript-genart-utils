@@ -22,7 +22,7 @@ minima:
   social_links:
     - title: "Source Code"
       icon: git-alt
-      url: "https://github.com/blwatkins/npm-typescript-package-template"
+      url: "https://github.com/blwatkins/typescript-genart-utils"
     - title: "GitHub Pages"
       icon: square-github
       url: "https://blwatkins.github.io/"
@@ -38,8 +38,8 @@ minima:
   nav_pages:
     - index.md
 
-title: "npm TypeScript Package Template"
-description: "A template project for creating a TypeScript package for npm."
+title: "TypeScript Generative Art Utilities"
+description: "A growing toolkit of reusable, library-agnostic TypeScript and JavaScript utilities for algorithmic generative art development."
 show_downloads: true
 
 sass:
