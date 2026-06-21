@@ -10,8 +10,8 @@ This repository maintains both `CLAUDE.md` and `.github/copilot-instructions.md`
 Updates to `CLAUDE.md` should be reflected, when appropriate, in `.github/copilot-instructions.md`, and vice versa.
 
 ## Project Summary
-A template repository for creating and publishing a TypeScript package to npm.
-It includes an example `HelloWorld` module, strict TypeScript settings, an ESM build (tsdown), a Vitest test suite, TypeDoc API docs, and a Jekyll documentation site deployed to GitHub Pages.
+A growing toolkit of reusable, library-agnostic TypeScript and JavaScript utilities for algorithmic generative art development, published to npm.
+It includes a placeholder `HelloWorld` module (to be replaced with real utility implementations), strict TypeScript settings, an ESM build (tsdown), a Vitest test suite, TypeDoc API docs, and a Jekyll documentation site deployed to GitHub Pages.
 
 ## Common Commands
 - `npm ci` — install dependencies from the lockfile.
