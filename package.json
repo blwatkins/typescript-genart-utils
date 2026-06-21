@@ -1,20 +1,20 @@
 {
-  "name": "@blwat/template",
-  "version": "1.0.0",
+  "name": "@blwat/genart-utils",
+  "version": "0.1.0",
   "license": "MIT",
   "private": false,
-  "description": "A template project for creating a TypeScript package for npm.",
+  "description": "A growing toolkit of reusable, library-agnostic TypeScript and JavaScript utilities for algorithmic generative art development.",
   "author": {
     "name": "Brittni Watkins",
     "url": "https://blwatkins.github.io/"
   },
-  "homepage": "https://blwatkins.github.io/npm-typescript-package-template/",
+  "homepage": "https://blwatkins.github.io/typescript-genart-utils/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/blwatkins/npm-typescript-package-template.git"
+    "url": "git+https://github.com/blwatkins/typescript-genart-utils.git"
   },
   "bugs": {
-    "url": "https://github.com/blwatkins/npm-typescript-package-template/issues"
+    "url": "https://github.com/blwatkins/typescript-genart-utils/issues"
   },
   "type": "module",
   "engines": {
@@ -46,6 +46,9 @@
     "docs": "typedoc",
     "build": "tsdown",
     "prepack": "npm run build"
+  },
+  "dependencies": {
+    "@blwat/utils": "^0.1.0-alpha.2"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
