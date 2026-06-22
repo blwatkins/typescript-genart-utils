@@ -1,6 +1,6 @@
 {
   "name": "@blwat/genart-utils",
-  "version": "0.1.0",
+  "version": "0.1.0-alpha.0",
   "license": "MIT",
   "private": false,
   "description": "A growing toolkit of reusable, library-agnostic TypeScript and JavaScript utilities for algorithmic generative art development.",
