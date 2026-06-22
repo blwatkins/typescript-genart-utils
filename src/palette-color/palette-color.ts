@@ -18,5 +18,25 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-export * from './discriminator';
-export * from './palette-color';
+import { Type, Static } from 'typebox';
+
+import { discriminatedSchema } from '@blwat/utils';
+
+import { Discriminators } from '../discriminator';
+
+export const paletteColorSchema = Type.Intersect([
+    discriminatedSchema,
+    Type.Object(
+        {
+            hex: Type.Readonly(Type.Object({})),
+            name: Type.Readonly(Type.Object({})),
+            luminance: Type.Optional(Type.Readonly(Type.Object({}))),
+            rgb: Type.Optional(Type.Readonly(Type.Object({}))),
+            hsl: Type.Optional(Type.Readonly(Type.Object({}))),
+            discriminator: Type.Readonly(Type.Literal(Discriminators.PaletteColor))
+        },
+        { additionalProperties: false }
+    )
+]);
+
+export type PaletteColor = Static<typeof paletteColorSchema>;
