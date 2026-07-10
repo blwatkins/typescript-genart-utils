@@ -15,7 +15,7 @@ The two documents serve overlapping audiences and should stay consistent: when y
 - **Build:** tsdown (ESM output to `_dist/`)
 - **Test:** Vitest (coverage via V8, output to `_coverage/`)
 - **Documentation:** TypeDoc (output to `_doc/`)
-- **Dependencies:** `@blwat/utils` (runtime/production dependency)
+- **Dependencies:** `@blwatkins/utils` (runtime/production dependency)
 
 ## Development and Validation
 
