@@ -1,41 +1,49 @@
 # TypeScript Generative Art Utilities
+
 A growing toolkit of reusable, library-agnostic TypeScript and JavaScript utilities for algorithmic generative art development.
 
 ## Documentation
+
 - Latest release coming soon!
 - [Documentation by Version Number](https://blwatkins.github.io/typescript-genart-utils/releases.html)
 
 ## License
+
 The source code of this project is licensed under the [MIT License](https://opensource.org/license/mit).
 The full text of the license is included with the project source code.
 
 ## Project Status Badges
 
-### [npm](https://www.npmjs.com/package/@blwat/genart-utils)
-![npm License](https://badgen.net/npm/license/@blwat/genart-utils/alpha)
-![npm Version](https://badgen.net/npm/v/@blwat/genart-utils)
-![npm @alpha Version](https://badgen.net/npm/v/@blwat/genart-utils/alpha)
-![npm Types](https://badgen.net/npm/types/@blwat/genart-utils)
-![npm Node Version](https://badgen.net/npm/node/@blwat/genart-utils)
-![npm Weekly Downloads](https://badgen.net/npm/dw/@blwat/genart-utils)
-![npm Total Downloads](https://badgen.net/npm/dt/@blwat/genart-utils)
-![npm Last Update](https://img.shields.io/npm/last-update/%40blwat%2Fgenart-utils)
-![npm Unpacked Size](https://img.shields.io/npm/unpacked-size/%40blwat%2Fgenart-utils)
+### [npm](https://www.npmjs.com/package/@blwatkins/genart-utils)
 
-### [Socket](https://socket.dev/npm/package/@blwat/genart-utils)
-![Socket Score](https://badge.socket.dev/npm/package/@blwat/genart-utils)
+![npm License](https://badgen.net/npm/license/@blwatkins/genart-utils/alpha)
+![npm Version](https://badgen.net/npm/v/@blwatkins/genart-utils)
+![npm @alpha Version](https://badgen.net/npm/v/@blwatkins/genart-utils/alpha)
+![npm Types](https://badgen.net/npm/types/@blwatkins/genart-utils)
+![npm Node Version](https://badgen.net/npm/node/@blwatkins/genart-utils)
+![npm Weekly Downloads](https://badgen.net/npm/dw/@blwatkins/genart-utils)
+![npm Total Downloads](https://badgen.net/npm/dt/@blwatkins/genart-utils)
+![npm Last Update](https://img.shields.io/npm/last-update/%40blwatkins%2Fgenart-utils)
+![npm Unpacked Size](https://img.shields.io/npm/unpacked-size/%40blwatkins%2Fgenart-utils)
 
-### [Bundlephobia](https://bundlephobia.com/package/@blwat/genart-utils)
-![Bundlephobia Tree Shaking](https://badgen.net/bundlephobia/tree-shaking/@blwat/genart-utils)
-![Bundlephobia Dependency Count](https://badgen.net/bundlephobia/dependency-count/@blwat/genart-utils)
-![Bundlephobia Minified](https://badgen.net/bundlephobia/min/@blwat/genart-utils)
-![Bundlephobia Minified + gzip](https://badgen.net/bundlephobia/minzip/@blwat/genart-utils)
+### [Socket](https://socket.dev/npm/package/@blwatkins/genart-utils)
 
-### [Package Phobia](https://packagephobia.com/result?p=%40blwat%2Fgenart-utils)
-![Package Phobia Install Size](https://badgen.net/packagephobia/install/@blwat/genart-utils)
-![Package Phobia Publish Size](https://badgen.net/packagephobia/publish/@blwat/genart-utils)
+![Socket Score](https://badge.socket.dev/npm/package/@blwatkins/genart-utils)
+
+### [Bundlephobia](https://bundlephobia.com/package/@blwatkins/genart-utils)
+
+![Bundlephobia Tree Shaking](https://badgen.net/bundlephobia/tree-shaking/@blwatkins/genart-utils)
+![Bundlephobia Dependency Count](https://badgen.net/bundlephobia/dependency-count/@blwatkins/genart-utils)
+![Bundlephobia Minified](https://badgen.net/bundlephobia/min/@blwatkins/genart-utils)
+![Bundlephobia Minified + gzip](https://badgen.net/bundlephobia/minzip/@blwatkins/genart-utils)
+
+### [Package Phobia](https://packagephobia.com/result?p=%40blwatkins%2Fgenart-utils)
+
+![Package Phobia Install Size](https://badgen.net/packagephobia/install/@blwatkins/genart-utils)
+![Package Phobia Publish Size](https://badgen.net/packagephobia/publish/@blwatkins/genart-utils)
 
 ### [GitHub](https://github.com/blwatkins/typescript-genart-utils)
+
 ![GitHub License](https://badgen.net/github/license/blwatkins/typescript-genart-utils)
 ![GitHub Dependabot](https://badgen.net/github/dependabot/blwatkins/typescript-genart-utils)
 ![GitHub Latest Release](https://badgen.net/github/release/blwatkins/typescript-genart-utils)
@@ -49,14 +57,17 @@ The full text of the license is included with the project source code.
 ![GitHub Language Count](https://img.shields.io/github/languages/count/blwatkins/typescript-genart-utils)
 
 ### GitHub Actions
+
 ![CodeQL](https://github.com/blwatkins/typescript-genart-utils/actions/workflows/codeql.yml/badge.svg)
 ![npm Lint, Build, and Test](https://github.com/blwatkins/typescript-genart-utils/actions/workflows/npm-test.yml/badge.svg)
 ![Deploy GitHub Pages with Jekyll](https://github.com/blwatkins/typescript-genart-utils/actions/workflows/gh-pages-jekyll.yml/badge.svg)
 
 ## Sources and Technical Notes
+
 - [Demonstrated Portfolio Skills](https://blwatkins.github.io/typescript-genart-utils/portfolio-skills.html)
 
 ## Thank Yous
+
 A huge thank you to all the open source contributors who have made this project possible by creating and maintaining the libraries and tools used in this project, and to the open source community for fostering collaboration and innovation.
 
 A special thank you to all the educators, mentors, and content creators who have shared their knowledge and expertise in the fields of algorithmic art, web development, and computer science.
