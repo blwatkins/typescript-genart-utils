@@ -10,13 +10,13 @@ toc: true
 This page is a technical record of the skills, tools, and engineering practices represented in the TypeScript Generative Art Utilities project.
 
 ## Project Overview
-TypeScript Generative Art Utilities (`@blwat/genart-utils`) is a growing toolkit of reusable, library-agnostic TypeScript and JavaScript utilities for algorithmic generative art development, published to npm for both TypeScript and JavaScript consumers. The project is maintained at [github.com/blwatkins/typescript-genart-utils](https://github.com/blwatkins/typescript-genart-utils) and built with TypeScript, tsdown (ESM bundling), and Vitest for testing. GitHub Actions automates linting, building, testing, and publishing.
+TypeScript Generative Art Utilities (`@blwatkins/genart-utils`) is a growing toolkit of reusable, library-agnostic TypeScript and JavaScript utilities for algorithmic generative art development, published to npm for both TypeScript and JavaScript consumers. The project is maintained at [blwatkins/typescript-genart-utils](https://github.com/blwatkins/typescript-genart-utils) and built with TypeScript, tsdown (ESM bundling), and Vitest for testing. GitHub Actions automates linting, building, testing, and publishing.
 
 ## At a Glance
 - **Project Type:** Generative Art Utility npm Package
 - **Primary Language:** TypeScript
 - **Primary Runtime:** Node.js
-- **Build Pipeline:** tsdown (ESM)
+- **Build Pipeline:** tsdown
 - **Quality Controls:** ESLint
 - **Automation:** GitHub Actions
 - **Dependency Automation:** Dependabot
@@ -27,7 +27,7 @@ TypeScript Generative Art Utilities (`@blwat/genart-utils`) is a growing toolkit
 
 - **Languages:** [TypeScript](https://www.typescriptlang.org/), [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript), [Markdown](https://www.markdownguide.org/), [YAML](https://yaml.org/)
 - **Runtime:** [Node.js](https://nodejs.org/en)
-- **Libraries:** [`@blwat/utils`](https://blwatkins.github.io/typescript-utils/)
+- **Libraries:** [`@blwatkins/utils`](https://blwatkins.github.io/typescript-utils/)
 - **Testing:** [Vitest](https://vitest.dev/)
 - **Build / Bundling:** [tsdown](https://tsdown.dev/)
 - **Code Quality:** [ESLint](https://eslint.org/)
