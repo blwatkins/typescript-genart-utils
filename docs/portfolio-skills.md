@@ -6,7 +6,7 @@ author:
   - Claude Code
   - GitHub Copilot
 date: 2026-06-21
-modified_date: 2026-07-09
+modified_date: 2026-07-10
 toc: true
 ---
 
@@ -44,7 +44,7 @@ The repository is maintained at [blwatkins/typescript-genart-utils](https://gith
 - **Dependency Management:** [npm](https://www.npmjs.com/)
 - **Versioning & Platform:** [Git](https://git-scm.com/), [GitHub](https://github.com/)
 - **Automation:** [GitHub Actions](https://github.com/features/actions)
-- **Hosting & Deployment:** [GitHub Pages](https://docs.github.com/en/pages), [npm Package Registry](https://www.npmjs.com/)
+- **Hosting & Deployment:** [GitHub Pages](https://docs.github.com/en/pages), [npm package registry](https://www.npmjs.com/), [GitHub package registry](https://docs.github.com/en/packages)
 - **Code Analysis / Security:** [CodeQL](https://codeql.github.com/)
 - **Dependency Automation:** [Dependabot](https://docs.github.com/en/code-security/concepts/supply-chain-security/dependabot-version-updates)
 - **Development Utilities:** [npm CLI](https://docs.npmjs.com/cli)
@@ -54,78 +54,78 @@ The repository is maintained at [blwatkins/typescript-genart-utils](https://gith
 
 ## Capability Record
 
-- Packages TypeScript source as ESM with format-specific output extensions (`.mjs` / `.d.mts`) via tsdown, enabling both TypeScript and JavaScript consumers to use the library without manual module resolution configuration
-- Enforces strict type-checking and code style with dual ESLint configurations (one for JavaScript files, one for TypeScript files), using `typescript-eslint` recommended and strict type-checked rule sets to catch errors and style inconsistencies during development
-- Automates lint, build, and test verification on push and pull request to protected branches via GitHub Actions, ensuring all changes pass a consistent quality gate before integration
-- Generates module-organized API documentation via TypeDoc from module-level entry points, improving navigability and discoverability of the library's exported API for consumers
-- Publishes a Jekyll-based documentation site to GitHub Pages on every merge to `main`, providing a hosted landing page and versioned release reference for the library
-- Manages scheduled dependency updates across npm, GitHub Actions, and Bundler ecosystems via Dependabot with grouped update strategies, reducing the maintenance burden of keeping tooling and dependencies current
-- Runs CodeQL static analysis on JavaScript/TypeScript, GitHub Actions, and Ruby code on an event-triggered and scheduled basis, enabling proactive detection of known vulnerability patterns
+- Uses explicit package export and type declaration mappings to improve compatibility for ESM consumers and TypeScript tooling.
+- Applies strict TypeScript compiler settings and type-aware lint rules to improve early detection of implementation defects.
+- Automates lint, build, and test checks in GitHub Actions to improve change reliability before merge and release.
+- Produces API documentation and publishes a docs site workflow to improve discoverability and maintenance of project knowledge.
+- Runs CodeQL and Dependabot automation to improve baseline security and dependency hygiene over time.
 
 ## Detailed Technical Notes
 
 Each technical claim below is backed by a source link to the corresponding implementation or workflow configuration in the project repository.
 
-### ESM package configuration and tsdown build output
+### ESM package contract and artifact layout
 
-The package is configured to publish as ESM. tsdown produces format-specific output extensions: `.mjs` for the bundle and `.d.mts` for declaration files. The `types`, `module`, `main`, and `exports` fields in `package.json` reference these `_dist/` output paths directly.
-
-**Evidence:**
-
-- [`package.json`](https://github.com/blwatkins/typescript-genart-utils/blob/main/package.json) — `exports`, `types`, `module`, and `main` fields referencing `_dist/index.mjs` and `_dist/index.d.mts`
-- [`tsdown.config.ts`](https://github.com/blwatkins/typescript-genart-utils/blob/main/tsdown.config.ts) — entry point, `outDir: '_dist'`, `format: ['esm']`, `dts: true`
-
-### Strict TypeScript configuration and dual-config ESLint enforcement
-
-TypeScript is configured with `strict`, `noImplicitAny`, `noUnusedLocals`, `noUnusedParameters`, `noImplicitReturns`, `noImplicitOverride`, and related flags, targeting ES2022 with `moduleResolution: bundler`. Two separate ESLint configurations lint JavaScript and TypeScript files independently; the TypeScript configuration applies `typescript-eslint` recommended, strict, and stylistic type-checked rule sets alongside `@stylistic/eslint-plugin` and `eslint-plugin-es-x`.
+The package is configured as ESM and publishes built artifacts from `_dist`, including declaration files and a scoped export map.
+The build pipeline generates those outputs from `src/index.ts` using tsdown.
 
 **Evidence:**
 
-- [`tsconfig.json`](https://github.com/blwatkins/typescript-genart-utils/blob/main/tsconfig.json) — full type-checking compiler options
-- [`eslint.config.ts.mjs`](https://github.com/blwatkins/typescript-genart-utils/blob/main/eslint.config.ts.mjs) — TypeScript ESLint configuration with `recommendedTypeChecked`, `strictTypeChecked`, and `stylisticTypeChecked`
-- [`package.json` scripts](https://github.com/blwatkins/typescript-genart-utils/blob/main/package.json) — `lint:js`, `lint:ts`, and `lint:all` entries
+- [package.json](https://github.com/blwatkins/typescript-genart-utils/blob/main/package.json)
+- [tsdown.config.ts](https://github.com/blwatkins/typescript-genart-utils/blob/main/tsdown.config.ts)
 
-### Vitest testing with V8 coverage
+### Utility module composition and re-export boundaries
 
-Tests are co-located under `test/` and run with Vitest in Node.js mode. Coverage is produced via the V8 provider and output in multiple formats (`text`, `lcov`, `json`, `json-summary`, `clover`, `html`) to `_coverage/`, supporting both local review and external coverage tooling.
-
-**Evidence:**
-
-- [`vitest.config.ts`](https://github.com/blwatkins/typescript-genart-utils/blob/main/vitest.config.ts) — `include`, `exclude`, `coverage.provider`, `coverage.reporter`, and `coverage.reportsDirectory` settings
-
-### TypeDoc module-level API documentation
-
-TypeDoc is configured to generate API documentation from module-level `index.ts` entry points rather than the root package entry point, preserving module-level organization in the generated output. The configuration also enables version inclusion, custom navigation links, and strict validation (warnings treated as errors).
+The public entry point re-exports domain modules, and each domain module re-exports dedicated types and classes.
+This keeps the package API small while still allowing clear internal organization by domain.
 
 **Evidence:**
 
-- [`typedoc.json`](https://github.com/blwatkins/typescript-genart-utils/blob/main/typedoc.json) — `entryPoints`, `out`, `includeVersion`, `navigationLinks`, `navigation`, and `treatWarningsAsErrors`
+- [src/index.ts](https://github.com/blwatkins/typescript-genart-utils/blob/main/src/index.ts)
 
-### GitHub Actions CI and publishing automation
+### Strict typing and lint enforcement model
 
-Three workflows are maintained: `npm-test.yml` runs lint, build, and test on push and pull request to `main` and `release/**` branches across Node.js 22 and 24; `npm-publish.yml` runs the same quality gate and then publishes to npm with a release tag specified at dispatch time; `gh-pages-jekyll.yml` builds and deploys the Jekyll documentation site to GitHub Pages on every push to `main`.
-
-**Evidence:**
-
-- [`.github/workflows/npm-test.yml`](https://github.com/blwatkins/typescript-genart-utils/blob/main/.github/workflows/npm-test.yml)
-- [`.github/workflows/npm-publish.yml`](https://github.com/blwatkins/typescript-genart-utils/blob/main/.github/workflows/npm-publish.yml)
-- [`.github/workflows/gh-pages-jekyll.yml`](https://github.com/blwatkins/typescript-genart-utils/blob/main/.github/workflows/gh-pages-jekyll.yml)
-
-### Dependabot dependency automation
-
-Dependabot is configured to open scheduled update pull requests for npm packages, GitHub Actions, and Bundler gems. npm updates use grouped strategies for development and production dependencies (both version and security updates). All update PRs target the `main` branch.
+TypeScript is configured with strict checks, including implicit-type and unused-code protections, to enforce predictable typing behavior.
+JavaScript and TypeScript lint configurations apply recommended and stricter rule sets for syntax safety and style consistency.
 
 **Evidence:**
 
-- [`.github/dependabot.yml`](https://github.com/blwatkins/typescript-genart-utils/blob/main/.github/dependabot.yml)
+- [tsconfig.json](https://github.com/blwatkins/typescript-genart-utils/blob/main/tsconfig.json)
+- [eslint.config.js.mjs](https://github.com/blwatkins/typescript-genart-utils/blob/main/eslint.config.js.mjs)
+- [eslint.config.ts.mjs](https://github.com/blwatkins/typescript-genart-utils/blob/main/eslint.config.ts.mjs)
 
-### CodeQL security analysis
+### CI verification gates
 
-CodeQL analyzes JavaScript/TypeScript, GitHub Actions, and Ruby code on push and pull request to `main` and `release/**` branches, on a monthly schedule, and via manual dispatch. Analysis runs in parallel across all three language targets.
+Lint, build, and test scripts are wired into local and CI workflows via `package.json`.
+The primary CI workflow runs `npm ci`, lint, build, and tests across supported Node.js release lines before changes are accepted.
 
 **Evidence:**
 
-- [`.github/workflows/codeql.yml`](https://github.com/blwatkins/typescript-genart-utils/blob/main/.github/workflows/codeql.yml)
+- [package.json scripts](https://github.com/blwatkins/typescript-genart-utils/blob/main/package.json)
+- [npm-test.yml](https://github.com/blwatkins/typescript-genart-utils/blob/main/.github/workflows/npm-test.yml)
+
+### Documentation generation and GitHub Pages publishing path
+
+API docs are generated with TypeDoc, while the documentation site is built from `docs/` using a Jekyll workflow and deployed to GitHub Pages.
+Release-specific docs are stored under a versioned directory structure in `docs/releases/...`.
+
+**Evidence:**
+
+- [typedoc.json](https://github.com/blwatkins/typescript-genart-utils/blob/main/typedoc.json)
+- [gh-pages-jekyll.yml](https://github.com/blwatkins/typescript-genart-utils/blob/main/.github/workflows/gh-pages-jekyll.yml)
+- [docs/index.md](https://github.com/blwatkins/typescript-genart-utils/blob/main/docs/index.md)
+- [docs/releases directory](https://github.com/blwatkins/typescript-genart-utils/tree/main/docs/releases)
+
+### Security scanning and dependency update automation
+
+Security analysis is automated with a dedicated CodeQL workflow covering Actions and repository code languages.
+Dependency updates are automated with Dependabot for npm, GitHub Actions, and Bundler ecosystems, and package publishing uses trusted publishing permissions.
+
+**Evidence:**
+
+- [codeql.yml](https://github.com/blwatkins/typescript-genart-utils/blob/main/.github/workflows/codeql.yml)
+- [dependabot.yml](https://github.com/blwatkins/typescript-genart-utils/blob/main/.github/dependabot.yml)
+- [package-publish.yml](https://github.com/blwatkins/typescript-genart-utils/blob/main/.github/workflows/package-publish.yml)
 
 ## Current Gaps / Future Improvements
 
