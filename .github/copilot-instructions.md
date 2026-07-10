@@ -1,14 +1,17 @@
 # Copilot Instructions
 
 ## Project Overview
-A growing toolkit of reusable, library-agnostic TypeScript and JavaScript utilities for algorithmic generative art development, published to npm. Provides a typed ESM package, build tooling, documentation generation, and GitHub automation for builds, publishing, dependency updates, and security scanning.
+
+This repository contains `@blwatkins/genart-utils`, a growing toolkit of reusable, library-agnostic TypeScript and JavaScript utilities for algorithmic generative art development, published to npm.
 
 ## Companion Instruction Files
+
 This repository maintains a companion `CLAUDE.md` at the repository root alongside this file.
 The two documents serve overlapping audiences and should stay consistent: when you update guidance in `.github/copilot-instructions.md` that also applies to `CLAUDE.md`, mirror the change there, and vice versa.
 `CLAUDE.md` is intentionally a concise pointer to this file; this file remains the canonical, detailed source of conventions.
 
 ## Tech Stack
+
 - **Language:** TypeScript (targeting ES2022)
 - **Runtime:** Node.js (^22.22.0 || >=24)
 - **Package manager:** npm
@@ -16,31 +19,117 @@ The two documents serve overlapping audiences and should stay consistent: when y
 - **Test:** Vitest (coverage via V8, output to `_coverage/`)
 - **Documentation:** TypeDoc (output to `_doc/`)
 - **Dependencies:** `@blwatkins/utils` (runtime/production dependency)
+- **Site Generation:** Jekyll
+- **Hosting & Deployment:** GitHub Pages and npm package registry
 
 ## Development and Validation
 
+Primary development work happens in `src/` and corresponding tests under `test/`.
+Shared test fixtures helpers live under `test/utils`.
+Vitest also type-checks test files at run time (in addition to executing them), configured via the `typecheck` block in `vitest.config.ts` against `tsconfig.vitest.json`.
+
 ### Development Status
-Initial scaffolding is complete. The project includes a placeholder `HelloWorld` class export (`src/hello-world/`), TypeScript and build tooling configuration, a Vitest test suite, TypeDoc documentation generation, and GitHub automation workflows for builds, publishing, and security. The `HelloWorld` module is a temporary placeholder and will be replaced with real utility implementations in a future changeset before the first alpha release.
+
+The package is currently in an alpha release line and exports grouped utility modules.
 
 ### Validation Steps
-1. Run `npm ci` to install dependencies.
-2. Run `npm run build` to validate the build.
-3. Run `npm test` to run the test suite.
+
+- Install dependencies with `npm ci`.
+- Run lint checks with `npm run lint:all`.
+- Build with `npm run build`.
+- Run tests with `npm test`.
 
 ### Link Verification During Review
+
 As part of pull request review, verify that repository and package links (for example in `README.md`, `package.json`, or other project metadata) match the current repository and package coordinates.
 
+## Pre-Merge and Release Review
+
+Complete the following steps before merging a branch to a release branch or to `main`.
+
+### 1. Validation
+
+Run the full [Validation Steps](#validation-steps) and confirm everything passes cleanly:
+
+### 2. Portfolio Skills Page (`docs/portfolio-skills.md`)
+
+Review `docs/portfolio-skills.md` against the current repository state. If anything changed:
+
+- Update any section where capabilities, tooling, or the skills inventory changed
+- Bump `modified_date` to today; do not change the original `date`
+- Evidence links must always point to the `main` branch
+
+Refer to the ["Portfolio Page Generation and Maintenance" section](#portfolio-page-generation-and-maintenance) for the full review checklist.
+
+### 3. Instruction File Sync
+
+Verify that `CLAUDE.md` and `.github/copilot-instructions.md` are consistent with each other and reflect the current project state:
+
+- Guidance shared between the two files is mirrored
+- The Development Status section accurately lists all modules exported by the package
+- Any new tooling, conventions, or workflows introduced on the branch are documented
+
+### 4. `package.json` Keywords
+
+Review the `keywords` array in `package.json`:
+
+- Keywords should cover all major utility domains and notable features exported by the package
+- Add new keywords when a new utility domain or notable feature is introduced
+- Remove keywords for capabilities that no longer exist
+
+### 5. GitHub Repository Topics
+
+Verify that the topics on the GitHub repository ([blwatkins/genart-utils](https://github.com/blwatkins/genart-utils)) reflect the current capabilities.
+Topics should align with `package.json` keywords where appropriate.
+Request the current topics to be updated, if necessary.
+Provide any topic change suggestions to the project maintainers and any accepted changes will be updated manually.
+
+### 6. Branch Changes Code Review
+
+Review all source changes for convention compliance and code quality.
+
+#### Convention Compliance
+
+- All public/exported members have complete JSDoc per the documentation comment conventions in this file
+- Copyright year headers are present and accurate (see "File Headers" section)
+- `README.md` and `docs/index.md` are in sync for any shared content changes
+- Test coverage is complete and meaningful for all new or changed public API surface
+
+#### Code Quality
+
+- **Correctness** — implementations behave exactly as documented; edge cases are handled; patterns (e.g., regex) match precisely what they claim to match
+- **API consistency** — new methods and classes follow the naming conventions and structural patterns of existing ones; the public surface is intuitive alongside what is already exported
+- **Efficiency** — utility functions avoid unnecessary computation (e.g., no redundant regex compilation, no unnecessary copies or iterations)
+- **Backward compatibility** — no unintentional breaking changes to the published API; any intentional breaking changes are reflected in the version bump
+- **Reuse and DRY** — new utilities delegate to existing ones where appropriate rather than duplicating logic
+- **Runtime safety** — see the "JavaScript Consumer Safety" section for the requirement to retain runtime type guards for JavaScript consumers
+
+#### Consistency and Pattern Observation
+
+- **Cross-source consistency** — Compare all changed code, inline comments, and documentation (JSDoc, README, `docs/`) against each other and against implicit patterns visible in the rest of the codebase. Flag any deviation from an established pattern even if that pattern has not been explicitly documented in this file (e.g., consistent phrasing in JSDoc summaries, a structural idiom repeated across utility classes, a naming convention used throughout tests).
+- **Implicit pattern detection** — When a consistent pattern is observed in the codebase that is not yet captured in this file, call it out explicitly and ask the maintainer whether it should be documented in the appropriate section of `.github/copilot-instructions.md`.
+
+### 7. Release Readiness (for merges to `main`)
+
+When preparing a release merge to `main`:
+
+- Confirm the version in `package.json` is bumped appropriately
+- Ensure release documentation under `docs/releases/` covers the new version
+- Verify `typedoc.json` entry points include any new module-level index files
+- Confirm the npm publish workflow (`package-publish.yml`) is configured correctly for the release
+
 ## npm Scripts
-- `lint:js`: Runs ESLint with the JavaScript-only configuration (`eslint.config.js.mjs`).
-- `lint:ts`: Runs ESLint with the TypeScript configuration (`eslint.config.ts.mjs`).
-- `lint:all`: Runs both `lint:js` and `lint:ts` in sequence.
-- `build`: Bundles the package using `tsdown` and outputs to `_dist/`.
-- `docs`: Generates TypeDoc documentation and outputs to `_doc/`.
-- `test`: Runs the Vitest test suite once (`vitest run`).
-- `test:watch`: Runs Vitest in interactive watch mode.
-- `test:ui`: Opens the Vitest browser UI.
-- `test:coverage`: Runs the Vitest test suite with V8 coverage reporting (output to `_coverage/`).
-- `prepack`: Automatically runs `npm run build` before packing.
+
+- `npm run lint:js` - lint repository files with `eslint.config.js.mjs`
+- `npm run lint:ts` - lint repository files with `eslint.config.ts.mjs`
+- `npm run lint:all` - run both lint configurations
+- `npm run build` - bundle the package and emit declaration files with `tsdown`
+- `npm run test` - run the Vitest suite once
+- `npm run test:watch` - run Vitest in watch mode
+- `npm run test:ui` - run the Vitest UI
+- `npm run test:coverage` - run Vitest with V8 coverage reporting
+- `npm run docs` - generate API documentation with TypeDoc
+- `npm run prepack` - build the package before packing or publishing
 
 ## GitHub Actions CI
 - **`npm-test.yml`**: Triggered on push and pull request to `main` and `release/**` branches, and manually via `workflow_dispatch`. Runs `npm ci`, `npm run lint:all`, `npm run build`, and `npm run test` on Node.js 22.22.x and 24.x.
