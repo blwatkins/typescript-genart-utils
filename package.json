@@ -3,7 +3,7 @@
   "version": "0.1.0-alpha.0",
   "license": "MIT",
   "private": false,
-  "description": "A growing toolkit of reusable, library-agnostic TypeScript and JavaScript utilities for algorithmic generative art development.",
+  "description": "A toolkit of library-agnostic TypeScript and JavaScript utilities for algorithmic generative art development.",
   "author": {
     "name": "Brittni Watkins",
     "url": "https://blwatkins.github.io/"

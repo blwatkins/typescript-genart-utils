@@ -16,7 +16,7 @@ This page is a technical record of the skills, tools, and engineering practices 
 
 ## Project Overview
 
-TypeScript Generative Art Utilities (`@blwatkins/genart-utils`) is a growing toolkit of reusable, library-agnostic TypeScript and JavaScript utilities for algorithmic generative art development.
+TypeScript Generative Art Utilities (`@blwatkins/genart-utils`) is a toolkit of library-agnostic TypeScript and JavaScript utilities for algorithmic generative art development.
 The repository is maintained at [blwatkins/typescript-genart-utils](https://github.com/blwatkins/typescript-genart-utils) and built with TypeScript and tsdown.
 
 ## At a Glance

@@ -5,7 +5,7 @@ layout: page
 
 ## About This Project
 
-A growing toolkit of reusable, library-agnostic TypeScript and JavaScript utilities for algorithmic generative art development.
+A toolkit of library-agnostic TypeScript and JavaScript utilities for algorithmic generative art development.
 
 ## Documentation
 

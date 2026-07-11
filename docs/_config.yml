@@ -42,7 +42,7 @@ minima:
     - index.md
 
 title: "TypeScript Generative Art Utilities"
-description: "A growing toolkit of reusable, library-agnostic TypeScript and JavaScript utilities for algorithmic generative art development."
+description: "A toolkit of library-agnostic TypeScript and JavaScript utilities for algorithmic generative art development."
 show_downloads: true
 
 sass:

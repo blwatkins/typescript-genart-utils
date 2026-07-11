@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This repository contains `@blwatkins/genart-utils`, a growing toolkit of reusable, library-agnostic TypeScript and JavaScript utilities for algorithmic generative art development, published to npm.
+This repository contains `@blwatkins/genart-utils`, a toolkit of library-agnostic TypeScript and JavaScript utilities for algorithmic generative art development.
 
 ## Companion Instruction Files
 

@@ -15,7 +15,7 @@ Updates to `CLAUDE.md` should be reflected, when appropriate, in `.github/copilo
 
 ## Project Summary
 
-A growing toolkit of reusable, library-agnostic TypeScript and JavaScript utilities for algorithmic generative art development, published to npm.
+A toolkit of library-agnostic TypeScript and JavaScript utilities for algorithmic generative art development.
 
 ## npm Commands
 
