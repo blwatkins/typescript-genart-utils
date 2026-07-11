@@ -139,9 +139,8 @@ When preparing a release merge to `main`:
 
 ## Security and Dependency Management
 
-- GitHub Actions runs CodeQL analysis for `actions`, `javascript-typescript`, and `ruby`.
 - Dependabot is configured for monthly updates to npm dependencies, GitHub Actions workflows, and Bundler dependencies under `docs/`.
-- The npm publish workflow uses npm Trusted Publishing with GitHub OIDC (`id-token: write`) instead of a committed registry token.
+- See the [GitHub Actions CI](#github-actions-ci) table for CodeQL analysis scope and npm publish authentication details.
 
 ## Development Guidelines
 
