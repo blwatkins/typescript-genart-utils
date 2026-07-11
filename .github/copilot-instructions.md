@@ -22,99 +22,6 @@ The two documents serve overlapping audiences and should stay consistent: when y
 - **Site Generation:** Jekyll
 - **Hosting & Deployment:** GitHub Pages, npm package registry, and GitHub package registry
 
-## Development and Validation
-
-Primary development work happens in `src/` and corresponding tests under `test/`.
-Shared test fixture helpers should live under `test/utils` (create this directory when needed).
-Vitest also type-checks test files at run time (in addition to executing them), configured via the `typecheck` block in `vitest.config.ts` against `tsconfig.vitest.json`.
-
-### Development Status
-
-### Validation Steps
-
-Run in order: `npm ci`, `npm run lint:all`, `npm run build`, `npm test`. See the ["npm Scripts" section](#npm-scripts) for details on each command.
-
-### Link Verification During Review
-
-As part of pull request review, verify that repository and package links (for example in `README.md`, `package.json`, or other project metadata) match the current repository and package coordinates.
-
-## Pre-Merge and Release Review
-
-Complete the following steps before merging a branch to a release branch or to `main`.
-
-### 1. Validation
-
-Run the full [Validation Steps](#validation-steps) and confirm everything passes cleanly:
-
-### 2. Portfolio Skills Page (`docs/portfolio-skills.md`)
-
-Review `docs/portfolio-skills.md` against the current repository state.
-
-If anything changed, do the following:
-
-- Update any section where capabilities, tooling, or the skills inventory changed
-- Bump `modified_date` to today; do not change the original `date`
-- Evidence links must always point to the `main` branch
-
-Refer to the ["Portfolio Page Generation and Maintenance" section](#portfolio-page-generation-and-maintenance) for the full review checklist.
-
-### 3. Instruction File Sync
-
-Verify that `CLAUDE.md` and `.github/copilot-instructions.md` are consistent with each other and reflect the current project state:
-
-- Guidance shared between the two files is mirrored
-- The Development Status section accurately lists all modules exported by the package
-- Any new tooling, conventions, or workflows introduced on the branch are documented
-
-### 4. `package.json` Keywords
-
-Review the `keywords` array in `package.json`:
-
-- Keywords should cover all major utility domains and notable features exported by the package
-- Add new keywords when a new utility domain or notable feature is introduced
-- Remove keywords for capabilities that no longer exist
-
-### 5. GitHub Repository Topics
-
-Verify that the topics on the GitHub repository ([blwatkins/genart-utils](https://github.com/blwatkins/typescript-genart-utils)) reflect the current capabilities.
-Topics should align with `package.json` keywords where appropriate.
-Request the current topics to be updated, if necessary.
-Provide any topic change suggestions to the project maintainers and any accepted changes will be updated manually.
-
-### 6. Branch Code Review
-
-Review all branch changes for convention compliance and code quality.
-
-#### Convention Compliance
-
-- All source code files should follow the conventions listed in the ["Development Guidelines" section](#development-guidelines) of this file.
-- Copyright year headers are present and accurate (see ["File Headers" section](#file-headers)).
-- `README.md` and `docs/index.md` are in sync for any shared content changes
-- Test coverage is complete and meaningful for all new or changed public API surface
-
-#### Code Quality
-
-- **Correctness** — implementations behave exactly as documented; edge cases are handled; patterns (e.g., regex) match precisely what they claim to match
-- **API consistency** — new methods and classes follow the naming conventions and structural patterns of existing ones; the public surface is intuitive alongside what is already exported
-- **Efficiency** — utility functions avoid unnecessary computation (e.g., no redundant regex compilation, no unnecessary copies or iterations)
-- **Backward compatibility** — no unintentional breaking changes to the published API; any intentional breaking changes are reflected in the version bump
-- **Reuse and DRY** — new utilities delegate to existing ones where appropriate rather than duplicating logic
-- **Runtime safety** — see the "JavaScript Consumer Safety" section for the requirement to retain runtime type guards for JavaScript consumers
-
-#### Consistency and Pattern Observation
-
-- **Cross-source consistency** — Compare all changed code, inline comments, and documentation (JSDoc, README, `docs/`) against each other and against implicit patterns visible in the rest of the codebase. Flag any deviation from an established pattern even if that pattern has not been explicitly documented in this file (e.g., consistent phrasing in JSDoc summaries, a structural idiom repeated across utility classes, a naming convention used throughout tests).
-- **Implicit pattern detection** — When a consistent pattern is observed in the codebase that is not yet captured in this file, call it out explicitly and ask the maintainer whether it should be documented in the appropriate section of `.github/copilot-instructions.md`.
-
-### 7. Release Readiness (for merges to `main`)
-
-When preparing a release merge to `main`:
-
-- Confirm the version in `package.json` is bumped appropriately
-- Ensure release documentation under `docs/releases/` covers the new version
-- Verify `typedoc.json` entry points include any new module-level index files
-- Confirm the npm publish workflow (`package-publish.yml`) is configured correctly for the release
-
 ## npm Scripts
 
 - `npm run lint:js` - lint repository files with `eslint.config.js.mjs`
@@ -137,26 +44,53 @@ When preparing a release merge to `main`:
 | `package-publish.yml` | npm and GitHub Package Publish | Manual (`workflow_dispatch`) | Lints, builds, tests, then publishes to npm and GitHub Packages; requires `release_tag` input and uses `id-token: write` trusted publishing permissions for the npm publish job |
 | `npm-test.yml` | npm Lint, Build, and Test | Push/PR to `main` and `release/**`, manual | Runs lint, build, and tests across supported Node.js versions |
 
-## Security and Dependency Management
+## Directory Structure
 
-- Dependabot is configured for monthly updates to npm dependencies, GitHub Actions workflows, and Bundler dependencies under `docs/`.
-- See the [GitHub Actions CI](#github-actions-ci) table for CodeQL analysis scope and npm publish authentication details.
+```
+src/
+  hello-world/      # hello-world example module
+  index.ts          # Package entry point (re-exports all modules)
+test/               # Vitest test suites (mirrors src/ module structure)
+  hello-world/      # Tests for the hello-world module
+docs/               # GitHub Pages site content and manually maintained release documentation
+.github/
+  workflows/        # CI, publishing, documentation, and analysis workflows
+_dist/              # Build output - generated by tsdown (not committed)
+_compiled/          # TypeScript outDir output - generated by tsc (not committed)
+_coverage/          # Coverage output - generated by Vitest (not committed)
+_doc/               # Documentation output - generated by TypeDoc (not committed)
+```
 
 ## Development Guidelines
 
 Keep changes scoped to existing files unless a task explicitly requires scaffolding project code.
 
-### tsdown Build Output
+### Static Classes
 
-This project uses `tsdown` to bundle and emit declaration files.
-When the output format is `esm`, tsdown emits format-specific file extensions: `.mjs` for the bundle and `.d.mts` for the declaration file, regardless of whether the source files use the `.ts` or `.mts` extension.
-The `types`, `module`, `main`, and `exports` fields in `package.json` should always reference these `.mjs`/`.d.mts` paths (e.g., `./_dist/index.mjs` and `./_dist/index.d.mts`).
+Static classes must:
+
+- Have a `private constructor()` that throws an `Error` to prevent instantiation
+- Include a JSDoc `@throws` on the constructor documenting the instantiation error
+- Expose public static getters or methods only
+
+### TypeScript Conventions
+
+- The package is ESM-only (`"type": "module"`), so keep imports/exports compatible with Node.js ESM resolution.
+- Public exports flow through module index files. This pattern is intentional to maintain clear module boundaries and organization in both source code and generated documentation.
+- API documentation entry points stay module-scoped rather than pointing TypeDoc at the root package entry point.
+- The project uses strict TypeScript settings (`strict`, `noImplicitAny`, `noUnusedLocals`, etc.) targeting ES2022 with `moduleResolution: bundler`.
 
 ### JavaScript Consumer Safety
 
 This package is published as ESM and targets both TypeScript and JavaScript consumers.
 Retain runtime type guards and input validation even when TypeScript's type system would catch the same issue at compile time.
 JavaScript callers have no compile-time safety, so runtime checks are necessary for correctness.
+
+### tsdown Build Output
+
+This project uses `tsdown` to bundle and emit declaration files.
+When the output format is `esm`, tsdown emits format-specific file extensions: `.mjs` for the bundle and `.d.mts` for the declaration file, regardless of whether the source files use the `.ts` or `.mts` extension.
+The `types`, `module`, `main`, and `exports` fields in `package.json` should always reference these `.mjs`/`.d.mts` paths (e.g., `./_dist/index.mjs` and `./_dist/index.d.mts`).
 
 ### File Headers
 
@@ -195,21 +129,6 @@ All source files must include the MIT License copyright header at the top.
 - Module-level private constants (e.g., lookup tables backing a set of public getters) use camelCase naming.
 - Variable and constant names do not need to encode their type or role in a suffix (e.g., `Pattern`) unless doing so is necessary to clarify the data they hold; surrounding context is often sufficient (e.g., `regularExpressions.hexColor` versus the public `hexColorPattern` getter that exposes it).
 
-#### Static Classes
-
-Static utility classes must:
-
-- Have a `private constructor()` that throws an `Error` to prevent instantiation
-- Include a JSDoc `@throws` on the constructor documenting the instantiation error
-- Expose public static getters or methods only
-
-#### TypeScript Conventions
-
-- The package is ESM-only (`"type": "module"`), so keep imports/exports compatible with Node.js ESM resolution.
-- Public exports flow through module index files. This pattern is intentional to maintain clear module boundaries and organization in both source code and generated documentation.
-- API documentation entry points stay module-scoped rather than pointing TypeDoc at the root package entry point.
-- The project uses strict TypeScript settings (`strict`, `noImplicitAny`, `noUnusedLocals`, etc.) targeting ES2022 with `moduleResolution: bundler`.
-
 #### Formatting Rules
 
 - Keep formatting compatible with the repository ESLint configurations in `eslint.config.js.mjs` and `eslint.config.ts.mjs`.
@@ -222,7 +141,7 @@ Most documentation comment conventions are enforced automatically by `eslint.con
 Do not weaken or remove these ESLint rules to work around a violation; fix the documentation comment instead.
 If a legitimate case requires deviating from one of these rules, discuss the specific rule override with the maintainer rather than silently suppressing it.
 
-#### Manual Review for Documentation Comment Preferences
+#### Manual Review Instructions for Documentation Comment Preferences
 
 The following preferences require manual review since no ESLint rule can check them automatically:
 
@@ -234,28 +153,17 @@ The following preferences require manual review since no ESLint rule can check t
 - **Document default parameter values:** Indicate default values for parameters in the `@param` annotation.
 - **Annotate abstract/readonly/private/protected/override members:** Use `@abstract`, `@readonly`, `@private`, `@protected`, and `@override`, respectively, matching the corresponding TypeScript modifier. `eslint.config.ts.mjs` validates these tags are well-formed where present, but does not require their presence for a given modifier.
 
-## Directory Structure
-
-```
-src/
-  hello-world/      # hello-world example module
-  index.ts          # Package entry point (re-exports all modules)
-test/               # Vitest test suites (mirrors src/ module structure)
-  hello-world/      # Tests for the hello-world module
-docs/               # GitHub Pages site content and manually maintained release documentation
-.github/
-  workflows/        # CI, publishing, documentation, and analysis workflows
-_dist/              # Build output - generated by tsdown (not committed)
-_compiled/          # TypeScript outDir output - generated by tsc (not committed)
-_coverage/          # Coverage output - generated by Vitest (not committed)
-_doc/               # Documentation output - generated by TypeDoc (not committed)
-```
-
 ## Documentation and GitHub Pages
 
 `README.md` and `docs/index.md` should stay in sync for shared content, but they are not expected to be identical.
 Expected differences include Jekyll front matter, file-specific introductory or heading sections, footer or copyright text, and internal link differences.
 Any addition, removal, or update to shared sections must be applied consistently to both files.
+
+### Jekyll Build
+
+The Jekyll build uses the `jekyll-relative-links` plugin (configured in `docs/_config.yml`), which automatically converts relative `.md` links in `docs/` markdown files to their rendered `.html` paths.
+For example, `./portfolio-skills.md` in `docs/index.md` resolves to `portfolio-skills.html` on the published site.
+Use `.md` relative links within `docs/` source files; the build process will convert them correctly.
 
 ### TypeDoc Configuration
 
@@ -267,11 +175,104 @@ Any addition, removal, or update to shared sections must be applied consistently
 - Release documentation organized in `docs/releases/...` is maintained manually and not generated by any automated process.
 - Release docs follow the directory structure: `docs/releases/v{major}.x/v{major}.{minor}.x/v{version-prefix}.x/{full-version}/doc/`, where `{version-prefix}` includes the major, minor, patch, and any pre-release type identifier (e.g., `v0.1.0-alpha` for versions like `v0.1.0-alpha.0`).
 
-### Jekyll Build
+## Security and Dependency Management
 
-The Jekyll build uses the `jekyll-relative-links` plugin (configured in `docs/_config.yml`), which automatically converts relative `.md` links in `docs/` markdown files to their rendered `.html` paths.
-For example, `./portfolio-skills.md` in `docs/index.md` resolves to `portfolio-skills.html` on the published site.
-Use `.md` relative links within `docs/` source files; the build process will convert them correctly.
+- Dependabot is configured for monthly updates to npm dependencies, GitHub Actions workflows, and Bundler dependencies under `docs/`.
+- See the [GitHub Actions CI](#github-actions-ci) table for CodeQL analysis scope and npm publish authentication details.
+
+## Validation
+
+### Vitest Testing
+
+Primary development work happens in `src/`, with corresponding tests under `test/`.
+Shared test fixture helpers should live under `test/utils` (create this directory when needed).
+Vitest also type-checks test files at run time (in addition to executing them), configured via the `typecheck` block in `vitest.config.ts` against `tsconfig.vitest.json`.
+
+### Validation Steps
+
+Run in order: `npm ci`, `npm run lint:all`, `npm run build`, `npm test`. See the ["npm Scripts" section](#npm-scripts) for details on each command.
+
+### Link Verification
+
+As part of pull request review, verify that repository and package links (for example in `README.md`, `package.json`, or other project metadata) match the current repository and package coordinates.
+
+## Pre-Merge and Release Review
+
+Complete the following steps before merging a branch to a release branch or to `main`.
+
+### 1. Validation
+
+Run the full [Validation Steps](#validation-steps) and confirm everything passes cleanly:
+
+### 2. Portfolio Skills Page (`docs/portfolio-skills.md`)
+
+Review `docs/portfolio-skills.md` against the current repository state.
+
+If anything changed, do the following:
+
+- Update any section where capabilities, tooling, or the skills inventory changed
+- Bump `modified_date` to today; do not change the original `date`
+- Evidence links must always point to the `main` branch
+
+Refer to the ["Portfolio Page Generation and Maintenance" section](#portfolio-page-generation-and-maintenance) for the full review checklist.
+
+### 3. Instruction File Sync
+
+Verify that `CLAUDE.md` and `.github/copilot-instructions.md` are consistent with each other and reflect the current project state:
+
+- Guidance shared between the two files is mirrored
+- The [Directory Structure section](#directory-structure) accurately reflects the current `src/` module layout
+- Any new tooling, conventions, or workflows introduced on the branch are documented
+
+### 4. `package.json` Keywords
+
+Review the `keywords` array in `package.json`:
+
+- Keywords should cover all major utility domains and notable features exported by the package
+- Add new keywords when a new utility domain or notable feature is introduced
+- Remove keywords for capabilities that no longer exist
+
+### 5. GitHub Repository Topics
+
+Verify that the topics on the GitHub repository ([blwatkins/genart-utils](https://github.com/blwatkins/typescript-genart-utils)) reflect the current capabilities.
+Topics should align with `package.json` keywords where appropriate.
+Request the current topics to be updated, if necessary.
+Provide any topic change suggestions to the project maintainers and any accepted changes will be updated manually.
+
+### 6. Branch Code Review
+
+Review all branch changes for convention compliance and code quality.
+
+#### Convention Compliance
+
+- All source code files should follow the conventions listed in the ["Development Guidelines" section](#development-guidelines) of this file.
+- Copyright year headers are present and accurate (see ["File Headers" section](#file-headers)).
+- `README.md` and `docs/index.md` are in sync for any shared content changes
+- Test coverage is complete and meaningful for all new or changed public API surface
+
+#### Code Quality
+
+- **Correctness** — implementations behave exactly as documented; edge cases are handled; patterns (e.g., regex) match precisely what they claim to match
+- **API consistency** — new methods and classes follow the naming conventions and structural patterns of existing ones; the public surface is intuitive alongside what is already exported
+- **Efficiency** — utility functions avoid unnecessary computation (e.g., no redundant regex compilation, no unnecessary copies or iterations)
+- **Backward compatibility** — no unintentional breaking changes to the published API (check `package.json`'s current version — pre-release versions permit more flexibility here); any intentional breaking changes are reflected in the version bump
+- **Reuse and DRY** — new utilities delegate to existing ones where appropriate rather than duplicating logic
+- **Runtime safety** — see the "JavaScript Consumer Safety" section for the requirement to retain runtime type guards for JavaScript consumers
+
+#### Consistency and Pattern Observation
+
+- **Cross-source consistency** — Compare all changed code, inline comments, and documentation (JSDoc, README, `docs/`) against each other and against implicit patterns visible in the rest of the codebase. Flag any deviation from an established pattern even if that pattern has not been explicitly documented in this file (e.g., consistent phrasing in JSDoc summaries, a structural idiom repeated across utility classes, a naming convention used throughout tests).
+- **Implicit pattern detection** — When a consistent pattern is observed in the codebase that is not yet captured in this file, call it out explicitly and ask the maintainer whether it should be documented in the appropriate section of `.github/copilot-instructions.md`.
+
+### 7. Release Readiness (for merges to `main`)
+
+When preparing a release merge to `main`:
+
+- Confirm the version in `package.json` is bumped appropriately
+- Ensure release documentation under `docs/releases/` covers the new version
+- Verify `typedoc.json` entry points include any new module-level index files
+- Confirm the npm publish workflow (`package-publish.yml`) is configured correctly for the release
+
 ## Portfolio Page Generation and Maintenance
 
 - The portfolio skills page for this repository lives at `docs/portfolio-skills.md` and is published through the Jekyll site under `docs/`.
