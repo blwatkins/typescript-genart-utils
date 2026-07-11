@@ -15,9 +15,9 @@ The two documents serve overlapping audiences and should stay consistent: when y
 - **Language:** TypeScript (targeting ES2022)
 - **Runtime:** Node.js (^22.22.0 || >=24)
 - **Package manager:** npm
-- **Build:** tsdown (ESM output to `_dist/`)
-- **Test:** Vitest (coverage via V8, output to `_coverage/`)
-- **Documentation:** TypeDoc (output to `_doc/`)
+- **Build:** tsdown (ESM output)
+- **Test:** Vitest (coverage via V8)
+- **Documentation:** TypeDoc
 - **Dependencies:** `@blwatkins/utils` (runtime/production dependency)
 - **Site Generation:** Jekyll
 - **Hosting & Deployment:** GitHub Pages, npm package registry, and GitHub package registry
@@ -25,19 +25,14 @@ The two documents serve overlapping audiences and should stay consistent: when y
 ## Development and Validation
 
 Primary development work happens in `src/` and corresponding tests under `test/`.
-Shared test fixtures helpers live under `test/utils`.
+Shared test fixture helpers should live under `test/utils` (create this directory when needed).
 Vitest also type-checks test files at run time (in addition to executing them), configured via the `typecheck` block in `vitest.config.ts` against `tsconfig.vitest.json`.
 
 ### Development Status
 
-The package is currently in an alpha release line and exports grouped utility modules.
-
 ### Validation Steps
 
-- Install dependencies with `npm ci`.
-- Run lint checks with `npm run lint:all`.
-- Build with `npm run build`.
-- Run tests with `npm test`.
+Run in order: `npm ci`, `npm run lint:all`, `npm run build`, `npm test`. See the ["npm Scripts" section](#npm-scripts) for details on each command.
 
 ### Link Verification During Review
 
@@ -53,7 +48,9 @@ Run the full [Validation Steps](#validation-steps) and confirm everything passes
 
 ### 2. Portfolio Skills Page (`docs/portfolio-skills.md`)
 
-Review `docs/portfolio-skills.md` against the current repository state. If anything changed:
+Review `docs/portfolio-skills.md` against the current repository state.
+
+If anything changed, do the following:
 
 - Update any section where capabilities, tooling, or the skills inventory changed
 - Bump `modified_date` to today; do not change the original `date`
@@ -150,33 +147,47 @@ When preparing a release merge to `main`:
 
 Keep changes scoped to existing files unless a task explicitly requires scaffolding project code.
 
-### TypeScript Conventions
-
-- The package is ESM-only (`"type": "module"`), so keep imports/exports compatible with Node.js ESM resolution.
-- Public exports flow through module index files. This pattern is intentional to maintain clear module boundaries and organization in both source code and generated documentation.
-- API documentation entry points stay module-scoped rather than pointing TypeDoc at the root package entry point.
-- The project uses strict TypeScript settings (`strict`, `noImplicitAny`, `noUnusedLocals`, etc.) targeting ES2022 with `moduleResolution: bundler`.
-
-#### tsdown Build Output
+### tsdown Build Output
 
 This project uses `tsdown` to bundle and emit declaration files.
 When the output format is `esm`, tsdown emits format-specific file extensions: `.mjs` for the bundle and `.d.mts` for the declaration file, regardless of whether the source files use the `.ts` or `.mts` extension.
 The `types`, `module`, `main`, and `exports` fields in `package.json` should always reference these `.mjs`/`.d.mts` paths (e.g., `./_dist/index.mjs` and `./_dist/index.d.mts`).
 
-#### JavaScript Consumer Safety
+### JavaScript Consumer Safety
 
 This package is published as ESM and targets both TypeScript and JavaScript consumers.
 Retain runtime type guards and input validation even when TypeScript's type system would catch the same issue at compile time.
 JavaScript callers have no compile-time safety, so runtime checks are necessary for correctness.
 
-#### Static Classes
+### File Headers
 
-Static utility classes must:
-- Have a `private constructor()` that throws an `Error` to prevent instantiation
-- Include a JSDoc `@throws` on the constructor documenting the instantiation error
-- Expose public static getters or methods only
+All source files must include the MIT License copyright header at the top.
 
-## Code Style
+**Copyright year convention:** Use the original year the file was authored. If the file is subsequently modified in a later year, expand to a range (e.g., `2024-2026`). Do not change the starting year when editing an existing file.
+
+```typescript
+/*
+ * Copyright (c) <year> Brittni Watkins.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom
+ * the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+ * AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+ * FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+```
+
+### Code Style
 
 #### Code Style Preferences and Conventions
 
@@ -184,6 +195,21 @@ Static utility classes must:
 - Prefer `@returns` (not `@return`) in TSDoc comments.
 - Module-level private constants (e.g., lookup tables backing a set of public getters) use camelCase naming.
 - Variable and constant names do not need to encode their type or role in a suffix (e.g., `Pattern`) unless doing so is necessary to clarify the data they hold; surrounding context is often sufficient (e.g., `regularExpressions.hexColor` versus the public `hexColorPattern` getter that exposes it).
+
+#### Static Classes
+
+Static utility classes must:
+
+- Have a `private constructor()` that throws an `Error` to prevent instantiation
+- Include a JSDoc `@throws` on the constructor documenting the instantiation error
+- Expose public static getters or methods only
+
+#### TypeScript Conventions
+
+- The package is ESM-only (`"type": "module"`), so keep imports/exports compatible with Node.js ESM resolution.
+- Public exports flow through module index files. This pattern is intentional to maintain clear module boundaries and organization in both source code and generated documentation.
+- API documentation entry points stay module-scoped rather than pointing TypeDoc at the root package entry point.
+- The project uses strict TypeScript settings (`strict`, `noImplicitAny`, `noUnusedLocals`, etc.) targeting ES2022 with `moduleResolution: bundler`.
 
 #### Formatting Rules
 
@@ -235,34 +261,6 @@ Place annotations in the following order for consistency and readability:
 1. `@category`
 
 Include other relevant tags after the above, as appropriate for the context.
-
-### File Headers
-
-All source files must include the MIT License copyright header at the top.
-
-**Copyright year convention:** Use the original year the file was authored. If the file is subsequently modified in a later year, expand to a range (e.g., `2024-2026`). Do not change the starting year when editing an existing file.
-
-```typescript
-/*
- * Copyright (c) <year> Brittni Watkins.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom
- * the Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included
- * in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
- * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
- * AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
- * FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-```
 
 ## Directory Structure
 
