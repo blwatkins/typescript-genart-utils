@@ -82,6 +82,7 @@ This keeps the package API small while still allowing clear internal organizatio
 **Evidence:**
 
 - [src/index.ts](https://github.com/blwatkins/typescript-genart-utils/blob/main/src/index.ts)
+- [src/hello-world/index.ts](https://github.com/blwatkins/typescript-genart-utils/blob/main/src/hello-world/index.ts)
 
 ### Strict typing and lint enforcement model
 
