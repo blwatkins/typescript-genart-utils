@@ -234,7 +234,7 @@ Review the `keywords` array in `package.json`:
 
 ### 5. GitHub Repository Topics
 
-Verify that the topics on the GitHub repository ([blwatkins/genart-utils](https://github.com/blwatkins/typescript-genart-utils)) reflect the current capabilities.
+Verify that the topics on the GitHub repository ([blwatkins/typescript-genart-utils](https://github.com/blwatkins/typescript-genart-utils)) reflect the current capabilities.
 Topics should align with `package.json` keywords where appropriate.
 Request the current topics to be updated, if necessary.
 Provide any topic change suggestions to the project maintainers and any accepted changes will be updated manually.
