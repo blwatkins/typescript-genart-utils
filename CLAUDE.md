@@ -17,14 +17,9 @@ Updates to `CLAUDE.md` should be reflected, when appropriate, in `.github/copilo
 
 A growing toolkit of reusable, library-agnostic TypeScript and JavaScript utilities for algorithmic generative art development, published to npm.
 
-## Common Commands
+## npm Commands
 
-- `npm ci` — install dependencies from the lockfile.
-- `npm run lint:all` — run both the JavaScript and TypeScript ESLint configurations.
-- `npm run build` — bundle the package to `_dist/` with tsdown.
-- `npm test` — run the Vitest suite once.
-- `npm run test:coverage` — run tests with V8 coverage (output to `_coverage/`).
-- `npm run docs` — generate TypeDoc API documentation to `_doc/`.
+See the ["npm Scripts" section of `.github/copilot-instructions.md`](./.github/copilot-instructions.md#npm-scripts) for the full list of available commands.
 
 ## Generated Output Directories (not committed)
 
