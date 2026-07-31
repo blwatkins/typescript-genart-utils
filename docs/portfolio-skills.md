@@ -25,7 +25,7 @@ The repository is maintained at [blwatkins/typescript-genart-utils](https://gith
 - **Primary Language:** TypeScript
 - **Primary Runtime:** Node.js
 - **Build Pipeline:** tsdown
-- **Quality Controls:** ESLint
+- **Quality Controls:** ESLint, strict TypeScript compiler options
 - **Automation:** GitHub Actions
 - **Dependency Automation:** Dependabot
 - **Security Analysis:** CodeQL via GitHub Actions
@@ -40,8 +40,8 @@ The repository is maintained at [blwatkins/typescript-genart-utils](https://gith
 - **Build / Bundling:** [tsdown](https://tsdown.dev/)
 - **Code Quality:** [ESLint](https://eslint.org/)
 - **Documentation:** [TypeDoc](https://typedoc.org/)
-- **Site Generation:** [Bundler](https://bundler.io/), [Jekyll](https://jekyllrb.com/), [Liquid](https://shopify.github.io/liquid/), [Minima](https://github.com/jekyll/minima)
-- **Dependency Management:** [npm](https://www.npmjs.com/)
+- **Site Generation:** [Jekyll](https://jekyllrb.com/), [Liquid](https://shopify.github.io/liquid/), [Minima](https://github.com/jekyll/minima)
+- **Dependency Management:** [npm](https://www.npmjs.com/), [Bundler](https://bundler.io/)
 - **Versioning & Platform:** [Git](https://git-scm.com/), [GitHub](https://github.com/)
 - **Automation:** [GitHub Actions](https://github.com/features/actions)
 - **Hosting & Deployment:** [GitHub Pages](https://docs.github.com/en/pages), [npm package registry](https://www.npmjs.com/), [GitHub package registry](https://docs.github.com/en/packages)
