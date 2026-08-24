@@ -48,7 +48,7 @@
     "prepack": "npm run build"
   },
   "dependencies": {
-    "@blwatkins/utils": "^0.1.0-alpha.1"
+    "@blwatkins/utils": "^0.1.0-alpha.2"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
